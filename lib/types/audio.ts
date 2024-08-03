@@ -1,16 +1,8 @@
+import type { tracks } from "@/lib/tracks"
+
 export type AudioBaseUrl = `https://${string}`
 
-type TrackDetails = {
-	contact: "Daft Punk - Contact"
-	"doing-it-right": "Daft Punk - Doin' it Right"
-}
-
-type ShortName = keyof TrackDetails
-type FullName = TrackDetails[keyof TrackDetails]
-
-export type MusicTrack = {
-	[K in keyof TrackDetails]: { shortName: K; fullName: TrackDetails[K] }
-}[keyof TrackDetails]
+export type MusicTrack = (typeof tracks)[number]
 
 type AudioQualities = {
 	flac: "flac"
