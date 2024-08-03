@@ -1,6 +1,6 @@
 "use client"
 
-import type { TrackAudio } from "@/lib/track-urls"
+import type { TrackAudio } from "@/lib/types/audio"
 import { useEffect } from "react"
 
 type PreloadAudioProps = {
