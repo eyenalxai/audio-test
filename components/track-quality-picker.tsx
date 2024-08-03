@@ -37,14 +37,14 @@ export const TrackQualityPicker = ({ trackAudio, trackQualityOptions }: TrackQua
 		<div className={cn("flex", "flex-col", "gap-2", "justify-center", "items-start")}>
 			<div>{trackAudio.musicTrack.fullName}</div>
 			<div className={cn("flex", "flex-col", "gap-4")}>
-				{trackQualityLinks.map(([quality, link]) => (
+				{trackQualityLinks.map(([internalQuality, link]) => (
 					<div key={link} className={cn("flex", "flex-row", "gap-2")}>
 						<Button className={cn("w-16")} variant={"outline"}>
 							play
 						</Button>
 						<SelectQuality
 							trackQualityOptions={trackQualityOptions}
-							selectForQuality={quality}
+							selectForQuality={internalQuality}
 							setSelectedQualities={setSelectedQualities}
 						/>
 					</div>
