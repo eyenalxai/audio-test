@@ -6,6 +6,7 @@ import { shuffleAudioLinks } from "@/lib/shuffle"
 import { trackQualityOptions } from "@/lib/tracks"
 import type { TrackAudio } from "@/lib/types/audio"
 import type { SelectedAudioQualities } from "@/lib/types/select"
+import { useAudioPlayer } from "@/lib/use-audio-player"
 import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
 
@@ -30,12 +31,15 @@ export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListPr
 		)
 	)
 
+	const { setPlayingUrl } = useAudioPlayer()
+
 	useEffect(() => {
 		if (displayResults) return
 		setShuffledTrackAudios(shuffleAudioLinks(trackAudios))
 	}, [trackAudios, displayResults])
 
 	const resetAll = () => {
+		setPlayingUrl(null)
 		setDisplayResults(false)
 		setSelectedQualities(
 			Object.fromEntries(
@@ -82,7 +86,13 @@ export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListPr
 				/>
 			))}
 			<div className={cn("flex", "flex-row", "gap-2")}>
-				<Button disabled={!allSelected || displayResults} onClick={() => setDisplayResults(true)}>
+				<Button
+					disabled={!allSelected || displayResults}
+					onClick={() => {
+						setPlayingUrl(null)
+						setDisplayResults(true)
+					}}
+				>
 					check
 				</Button>
 				{displayResults && (
