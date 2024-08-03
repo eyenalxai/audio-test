@@ -1,5 +1,6 @@
 import "./globals.css"
 import { Providers } from "@/components/providers"
+import { ScrollAnchor } from "@/components/scroll-anchor"
 import { fontMono } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import type { Metadata, Viewport } from "next"
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 			<body className={cn("font-sans", "antialiased", fontMono.className)}>
 				<Providers attribute="class" defaultTheme="system" enableSystem>
 					{children}
+					<ScrollAnchor />
 				</Providers>
 			</body>
 		</html>
