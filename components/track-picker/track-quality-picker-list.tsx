@@ -2,11 +2,12 @@
 
 import { TrackQualityPicker } from "@/components/track-picker/track-quality-picker"
 import { Button } from "@/components/ui/button"
+import { shuffleAudioLinks } from "@/lib/shuffle"
 import { trackQualityOptions } from "@/lib/tracks"
 import type { TrackAudio } from "@/lib/types/audio"
 import type { SelectedAudioQualities } from "@/lib/types/select"
 import { cn } from "@/lib/utils"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 type TrackQualityPickerListProps = {
 	trackAudios: TrackAudio[]
@@ -14,6 +15,7 @@ type TrackQualityPickerListProps = {
 
 export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListProps) => {
 	const [displayResults, setDisplayResults] = useState(false)
+	const [shuffledTrackAudios, setShuffledTrackAudios] = useState<TrackAudio[] | undefined>(undefined)
 	const [selectedQualities, setSelectedQualities] = useState<SelectedAudioQualities>(
 		Object.fromEntries(
 			trackAudios.map((trackAudio) => [
@@ -27,6 +29,11 @@ export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListPr
 			])
 		)
 	)
+
+	useEffect(() => {
+		if (displayResults) return
+		setShuffledTrackAudios(shuffleAudioLinks(trackAudios))
+	}, [trackAudios, displayResults])
 
 	const resetAll = () => {
 		setDisplayResults(false)
@@ -58,9 +65,13 @@ export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListPr
 		Object.values(qualities).every((value) => value !== null)
 	)
 
+	if (!shuffledTrackAudios) {
+		return null
+	}
+
 	return (
 		<div className={cn("w-full", "flex", "flex-col", "justify-center", "items-start", "gap-8")}>
-			{trackAudios.map((trackAudio) => (
+			{shuffledTrackAudios.map((trackAudio) => (
 				<TrackQualityPicker
 					key={trackAudio.musicTrack.shortName}
 					displayResults={displayResults}
