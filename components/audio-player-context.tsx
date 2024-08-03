@@ -1,6 +1,6 @@
 "use client"
 
-import { type Dispatch, type ReactNode, type SetStateAction, createContext, useEffect, useRef, useState } from "react"
+import { type Dispatch, type ReactNode, type SetStateAction, createContext, useEffect, useState } from "react"
 
 export const AudioPlayerContext = createContext<
 	| {
@@ -15,26 +15,18 @@ type AudioPlayerProps = {
 }
 
 const AudioPlayer = ({ src }: AudioPlayerProps) => {
-	const audioRef = useRef<HTMLAudioElement>(null)
-
 	useEffect(() => {
-		if (src === null && audioRef.current) {
-			audioRef.current.pause()
-			return
-		}
-		if (src && audioRef.current) {
-			audioRef.current.src = src
-			audioRef.current.play().catch((error) => console.error("Error playing audio:", error))
-			return
+		if (!src) return
+
+		const audio = new Audio(src)
+		audio.play().catch((error) => console.error("Error playing audio:", error))
+
+		return () => {
+			audio.pause()
 		}
 	}, [src])
 
-	return (
-		// biome-ignore lint/a11y/useMediaCaption: <explanation>
-		<audio ref={audioRef} controls style={{ display: "none" }}>
-			Your browser does not support the audio element.
-		</audio>
-	)
+	return null
 }
 
 type AudioPlayerContextProviderProps = {
