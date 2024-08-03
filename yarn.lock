@@ -1450,6 +1450,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"audio-test@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "audio-test@workspace:."
+  dependencies:
+    "@biomejs/biome": "npm:1.8.3"
+    "@types/node": "npm:22.1.0"
+    "@types/react": "npm:18.3.3"
+    "@types/react-dom": "npm:18.3.0"
+    autoprefixer: "npm:10.4.20"
+    babel-plugin-react-compiler: "npm:0.0.0-experimental-334f00b-20240725"
+    class-variance-authority: "npm:^0.7.0"
+    clsx: "npm:^2.1.1"
+    eslint: "npm:8.57.0"
+    eslint-config-next: "npm:^15.0.0-rc.0"
+    eslint-plugin-tailwindcss: "npm:^3.17.4"
+    lucide-react: "npm:^0.424.0"
+    next: "npm:^15.0.0-rc.0"
+    next-themes: "npm:^0.3.0"
+    postcss: "npm:8.4.40"
+    react: "npm:19.0.0-rc-8269d55d-20240802"
+    react-dom: "npm:19.0.0-rc-8269d55d-20240802"
+    shadcn-ui: "npm:^0.8.0"
+    tailwind-merge: "npm:^2.4.0"
+    tailwindcss: "npm:3.4.7"
+    tailwindcss-animate: "npm:^1.0.7"
+    typescript: "npm:5.5.4"
+  languageName: unknown
+  linkType: soft
+
 "autoprefixer@npm:10.4.20":
   version: 10.4.20
   resolution: "autoprefixer@npm:10.4.20"
@@ -4099,35 +4128,6 @@ __metadata:
   checksum: 10c0/d4b53c1d0d05b44edd4f8434d4860283176e5c7147f48230979e0c2e96f9b805de69f70069e7eda2a28477202256e38a455631d2cbfd46d96e46f3c12c6f2bc1
   languageName: node
   linkType: hard
-
-"nextjs-template@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "nextjs-template@workspace:."
-  dependencies:
-    "@biomejs/biome": "npm:1.8.3"
-    "@types/node": "npm:22.1.0"
-    "@types/react": "npm:18.3.3"
-    "@types/react-dom": "npm:18.3.0"
-    autoprefixer: "npm:10.4.20"
-    babel-plugin-react-compiler: "npm:0.0.0-experimental-334f00b-20240725"
-    class-variance-authority: "npm:^0.7.0"
-    clsx: "npm:^2.1.1"
-    eslint: "npm:8.57.0"
-    eslint-config-next: "npm:^15.0.0-rc.0"
-    eslint-plugin-tailwindcss: "npm:^3.17.4"
-    lucide-react: "npm:^0.424.0"
-    next: "npm:^15.0.0-rc.0"
-    next-themes: "npm:^0.3.0"
-    postcss: "npm:8.4.40"
-    react: "npm:19.0.0-rc-8269d55d-20240802"
-    react-dom: "npm:19.0.0-rc-8269d55d-20240802"
-    shadcn-ui: "npm:^0.8.0"
-    tailwind-merge: "npm:^2.4.0"
-    tailwindcss: "npm:3.4.7"
-    tailwindcss-animate: "npm:^1.0.7"
-    typescript: "npm:5.5.4"
-  languageName: unknown
-  linkType: soft
 
 "node-domexception@npm:^1.0.0":
   version: 1.0.0
