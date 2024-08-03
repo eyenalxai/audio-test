@@ -9,13 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "babel-plugin-react-compiler": "0.0.0-experimental-334f00b-20240725",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.424.0",
-    "next": "14.2.5",
+    "next": "^15.0.0-rc.0",
     "next-themes": "^0.3.0",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
+    "react": "19.0.0-rc-8269d55d-20240802",
+    "react-dom": "19.0.0-rc-8269d55d-20240802",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7"
   },
@@ -26,7 +27,7 @@
     "@types/react-dom": "18.3.0",
     "autoprefixer": "10.4.20",
     "eslint": "8.57.0",
-    "eslint-config-next": "14.2.5",
+    "eslint-config-next": "^15.0.0-rc.0",
     "eslint-plugin-tailwindcss": "^3.17.4",
     "postcss": "8.4.40",
     "shadcn-ui": "^0.8.0",
