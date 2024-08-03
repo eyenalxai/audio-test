@@ -26,3 +26,5 @@ export type TrackAudio = {
 	musicTrack: MusicTrack
 	audioLinks: AudioLinks
 }
+
+export type ShortName = MusicTrack["shortName"]
