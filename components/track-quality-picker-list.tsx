@@ -26,7 +26,12 @@ export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListPr
 		)
 	)
 
-	console.log(selectedQualities)
+	const correctPicks = Object.values(selectedQualities).reduce((total, qualities) => {
+		const correctPicks = Object.entries(qualities).reduce((acc, [qualityKey, qualityValue]) => {
+			return acc + (qualityValue !== null && qualityKey === qualityValue ? 1 : 0)
+		}, 0)
+		return total + correctPicks
+	}, 0)
 
 	return (
 		<div className={cn("w-full", "flex", "flex-col", "justify-center", "items-start", "gap-8")}>
