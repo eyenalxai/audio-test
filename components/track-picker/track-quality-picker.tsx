@@ -4,6 +4,7 @@ import { SelectQuality } from "@/components/track-picker/select-quality"
 import { Button } from "@/components/ui/button"
 import type { AudioQualityInternal, AudioQualitySelection, TrackAudio } from "@/lib/types/audio"
 import type { SelectedAudioQualities } from "@/lib/types/select"
+import { useAudioPlayer } from "@/lib/use-audio-player"
 import { cn } from "@/lib/utils"
 import type { Dispatch, SetStateAction } from "react"
 
@@ -22,6 +23,8 @@ export const TrackQualityPicker = ({
 	selectedQualities,
 	setSelectedQualities
 }: TrackQualityPickerProps) => {
+	const { playingUrl, setPlayingUrl } = useAudioPlayer()
+
 	const trackQualityLinks: [AudioQualityInternal, string][] = Object.entries(trackAudio.audioLinks) as [
 		AudioQualityInternal,
 		string
@@ -33,8 +36,15 @@ export const TrackQualityPicker = ({
 			<div className={cn("flex", "flex-col", "gap-4")}>
 				{trackQualityLinks.map(([internalQuality, link]) => (
 					<div key={link} className={cn("flex", "flex-row", "gap-2", "items-center")}>
-						<Button className={cn("w-16")} variant={"outline"}>
-							play
+						<Button
+							type={"button"}
+							onClick={() => {
+								playingUrl === link ? setPlayingUrl(null) : setPlayingUrl(link)
+							}}
+							className={cn("w-16")}
+							variant={"outline"}
+						>
+							{playingUrl === link ? "stop" : "play"}
 						</Button>
 						<SelectQuality
 							trackQualityOptions={trackQualityOptions}
