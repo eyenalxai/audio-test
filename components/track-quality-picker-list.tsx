@@ -1,12 +1,12 @@
 "use client"
 
-import { TrackQualityPicker } from "@/components/track-quality-picker"
-import { Button } from "@/components/ui/button"
-import { trackQualityOptions } from "@/lib/tracks"
-import type { TrackAudio } from "@/lib/types/audio"
-import type { SelectedAudioQualities } from "@/lib/types/select"
-import { cn } from "@/lib/utils"
-import { useState } from "react"
+import {TrackQualityPicker} from "@/components/track-quality-picker"
+import {Button} from "@/components/ui/button"
+import {trackQualityOptions} from "@/lib/tracks"
+import type {TrackAudio} from "@/lib/types/audio"
+import type {SelectedAudioQualities} from "@/lib/types/select"
+import {cn} from "@/lib/utils"
+import {useState} from "react"
 
 type TrackQualityPickerListProps = {
 	trackAudios: TrackAudio[]
@@ -80,7 +80,6 @@ export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListPr
 					</Button>
 				)}
 			</div>
-
 			{displayResults && (
 				<div className={cn("flex", "flex-row", "gap-4")}>
 					<span>you got</span>
