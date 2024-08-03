@@ -1,6 +1,7 @@
 "use client"
 
 import { TrackQualityPicker } from "@/components/track-quality-picker"
+import { Button } from "@/components/ui/button"
 import { trackQualityOptions } from "@/lib/tracks"
 import type { TrackAudio } from "@/lib/types/audio"
 import type { SelectedAudioQualities } from "@/lib/types/select"
@@ -12,6 +13,7 @@ type TrackQualityPickerListProps = {
 }
 
 export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListProps) => {
+	const [displayResults, setDisplayResults] = useState(false)
 	const [selectedQualities, setSelectedQualities] = useState<SelectedAudioQualities>(
 		Object.fromEntries(
 			trackAudios.map((trackAudio) => [
@@ -49,6 +51,14 @@ export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListPr
 					setSelectedQualities={setSelectedQualities}
 				/>
 			))}
+			<Button disabled={!allSelected} onClick={() => setDisplayResults(true)}>
+				check
+			</Button>
+			{displayResults && (
+				<div>
+					<div>{`You got ${correctPicks} out of ${totalOptions} correct`}</div>
+				</div>
+			)}
 		</div>
 	)
 }
