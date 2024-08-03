@@ -40,6 +40,7 @@ export const TrackQualityPicker = ({
 							trackQualityOptions={trackQualityOptions}
 							selectForShortName={trackAudio.musicTrack.shortName}
 							selectForQuality={internalQuality}
+							selectedQualities={selectedQualities}
 							setSelectedQualities={setSelectedQualities}
 						/>
 						{displayResults && (

@@ -28,6 +28,25 @@ export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListPr
 		)
 	)
 
+	console.log(selectedQualities)
+
+	const resetAll = () => {
+		setDisplayResults(false)
+		setSelectedQualities(
+			Object.fromEntries(
+				trackAudios.map((trackAudio) => [
+					trackAudio.musicTrack.shortName,
+					{
+						flac: null,
+						mp3_320: null,
+						mp3_128: null,
+						mp3_64: null
+					}
+				])
+			)
+		)
+	}
+
 	const totalOptions = trackAudios.length * trackQualityOptions.length
 
 	const correctPicks = Object.values(selectedQualities).reduce((total, qualities) => {
@@ -56,6 +75,7 @@ export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListPr
 			<Button disabled={!allSelected} onClick={() => setDisplayResults(true)}>
 				check
 			</Button>
+			<Button onClick={() => resetAll()}>reset</Button>
 			{displayResults && (
 				<div className={cn("flex", "flex-row", "gap-4")}>
 					<span>you got</span>

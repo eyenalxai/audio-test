@@ -8,6 +8,7 @@ type SelectQualityProps = {
 	trackQualityOptions: AudioQualitySelection[]
 	selectForShortName: ShortName
 	selectForQuality: AudioQualityInternal
+	selectedQualities: SelectedAudioQualities
 	setSelectedQualities: Dispatch<SetStateAction<SelectedAudioQualities>>
 }
 
@@ -15,10 +16,12 @@ export const SelectQuality = ({
 	trackQualityOptions,
 	selectForShortName,
 	selectForQuality,
+	selectedQualities,
 	setSelectedQualities
 }: SelectQualityProps) => {
 	return (
 		<Select
+			value={selectedQualities[selectForShortName][selectForQuality] || undefined}
 			onValueChange={(quality: AudioQualityInternal) => {
 				setSelectedQualities((prev) => ({
 					...prev,
