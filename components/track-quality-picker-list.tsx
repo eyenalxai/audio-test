@@ -3,7 +3,7 @@
 import { TrackQualityPicker } from "@/components/track-quality-picker"
 import { trackQualityOptions } from "@/lib/tracks"
 import type { TrackAudio } from "@/lib/types/audio"
-import type { TrackQualityPicks } from "@/lib/types/select"
+import type { SelectedAudioQualities } from "@/lib/types/select"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 
@@ -12,11 +12,21 @@ type TrackQualityPickerListProps = {
 }
 
 export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListProps) => {
-	const [correctQualityPicks, setCorrectQualityPicks] = useState<TrackQualityPicks>(
-		Object.fromEntries(trackAudios.map((trackAudio) => [trackAudio.musicTrack.shortName, 0]))
+	const [selectedQualities, setSelectedQualities] = useState<SelectedAudioQualities>(
+		Object.fromEntries(
+			trackAudios.map((trackAudio) => [
+				trackAudio.musicTrack.shortName,
+				{
+					flac: null,
+					mp3_320: null,
+					mp3_128: null,
+					mp3_64: null
+				}
+			])
+		)
 	)
 
-	const totalOptions = trackAudios.length * trackQualityOptions.length
+	console.log(selectedQualities)
 
 	return (
 		<div className={cn("w-full", "flex", "flex-col", "justify-center", "items-start", "gap-8")}>
@@ -25,7 +35,7 @@ export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListPr
 					key={trackAudio.musicTrack.shortName}
 					trackAudio={trackAudio}
 					trackQualityOptions={trackQualityOptions}
-					setCorrectQualityPicks={setCorrectQualityPicks}
+					setSelectedQualities={setSelectedQualities}
 				/>
 			))}
 		</div>

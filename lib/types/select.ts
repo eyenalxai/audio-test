@@ -1,5 +1,5 @@
 import type { AudioQuality, AudioQualityInternal, ShortName } from "@/lib/types/audio"
 
-export type SelectedAudioQualities = Record<AudioQualityInternal, AudioQuality | null>
+export type SelectedAudioQualitiesForTrack = Record<AudioQualityInternal, AudioQuality | null>
 
-export type TrackQualityPicks = Record<ShortName, number>
+export type SelectedAudioQualities = Record<ShortName, SelectedAudioQualitiesForTrack>
