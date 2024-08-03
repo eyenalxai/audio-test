@@ -15,7 +15,7 @@ type AudioPlayerProps = {
 }
 
 const AudioPlayer = ({ src }: AudioPlayerProps) => {
-	const [audio] = useMemo(() => (typeof Audio !== "undefined" ? [new Audio()] : [null]), [])
+	const audio = useMemo(() => (typeof Audio !== "undefined" ? new Audio() : null), [])
 
 	useEffect(() => {
 		if (!src || audio === null) return
