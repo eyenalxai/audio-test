@@ -1,30 +1,32 @@
 "use client"
 
-import { type Dispatch, type ReactNode, type SetStateAction, createContext, useEffect, useState } from "react"
+import { type Dispatch, type ReactNode, type SetStateAction, createContext, useEffect, useMemo, useState } from "react"
 
 export const AudioPlayerContext = createContext<
 	| {
-			playingUrl: string | null
-			setPlayingUrl: Dispatch<SetStateAction<string | null>>
+			playingUrl: string | undefined
+			setPlayingUrl: Dispatch<SetStateAction<string | undefined>>
 	  }
 	| undefined
 >(undefined)
 
 type AudioPlayerProps = {
-	src: string | null
+	src: string | undefined
 }
 
 const AudioPlayer = ({ src }: AudioPlayerProps) => {
-	useEffect(() => {
-		if (!src) return
+	const [audio] = useMemo(() => (typeof Audio !== "undefined" ? [new Audio()] : [null]), [])
 
-		const audio = new Audio(src)
+	useEffect(() => {
+		if (!src || audio === null) return
+
+		audio.src = src
 		audio.play().catch((error) => console.error("Error playing audio:", error))
 
 		return () => {
 			audio.pause()
 		}
-	}, [src])
+	}, [src, audio])
 
 	return null
 }
@@ -34,7 +36,7 @@ type AudioPlayerContextProviderProps = {
 }
 
 export const AudioPlayerContextProvider = ({ children }: AudioPlayerContextProviderProps) => {
-	const [playingUrl, setPlayingUrl] = useState<string | null>(null)
+	const [playingUrl, setPlayingUrl] = useState<string | undefined>(undefined)
 
 	return (
 		<AudioPlayerContext.Provider value={{ playingUrl, setPlayingUrl }}>

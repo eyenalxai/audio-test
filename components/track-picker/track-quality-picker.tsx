@@ -42,7 +42,7 @@ export const TrackQualityPicker = ({
 							disabled={!allLoaded}
 							type={"button"}
 							onClick={() => {
-								playingUrl === link ? setPlayingUrl(null) : setPlayingUrl(link)
+								playingUrl === link ? setPlayingUrl(undefined) : setPlayingUrl(link)
 							}}
 							className={cn("w-16")}
 							variant={"outline"}

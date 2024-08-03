@@ -40,7 +40,7 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 	}, [trackAudios, displayResults])
 
 	const resetAll = () => {
-		setPlayingUrl(null)
+		setPlayingUrl(undefined)
 		setDisplayResults(false)
 		setSelectedQualities(
 			Object.fromEntries(
@@ -91,7 +91,7 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 				<Button
 					disabled={!allSelected || displayResults}
 					onClick={() => {
-						setPlayingUrl(null)
+						setPlayingUrl(undefined)
 						setDisplayResults(true)
 					}}
 				>
