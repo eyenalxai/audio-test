@@ -16,6 +16,8 @@ export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListPr
 		Object.fromEntries(trackAudios.map((trackAudio) => [trackAudio.musicTrack.shortName, 0]))
 	)
 
+	const totalOptions = trackAudios.length * trackQualityOptions.length
+
 	return (
 		<div className={cn("w-full", "flex", "flex-col", "justify-center", "items-start", "gap-8")}>
 			{trackAudios.map((trackAudio) => (
