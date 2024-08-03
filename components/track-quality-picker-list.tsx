@@ -28,8 +28,6 @@ export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListPr
 		)
 	)
 
-	console.log(selectedQualities)
-
 	const resetAll = () => {
 		setDisplayResults(false)
 		setSelectedQualities(
@@ -72,10 +70,17 @@ export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListPr
 					setSelectedQualities={setSelectedQualities}
 				/>
 			))}
-			<Button disabled={!allSelected} onClick={() => setDisplayResults(true)}>
-				check
-			</Button>
-			<Button onClick={() => resetAll()}>reset</Button>
+			<div className={cn("flex", "flex-row", "gap-2")}>
+				<Button disabled={!allSelected} onClick={() => setDisplayResults(true)}>
+					check
+				</Button>
+				{displayResults && (
+					<Button variant={"outline"} onClick={() => resetAll()}>
+						reset
+					</Button>
+				)}
+			</div>
+
 			{displayResults && (
 				<div className={cn("flex", "flex-row", "gap-4")}>
 					<span>you got</span>
