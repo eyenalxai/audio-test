@@ -1,35 +1,52 @@
+"use client"
+
+import { SelectQuality } from "@/components/select-quality"
 import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import type { TrackAudio } from "@/lib/types/audio"
+import type { AudioQualityInternal, AudioQualitySelection, TrackAudio } from "@/lib/types/audio"
+import type { SelectedAudioQualities } from "@/lib/types/select"
 import { cn } from "@/lib/utils"
+import { useEffect, useState } from "react"
 
 type TrackQualityPickerProps = {
 	trackAudio: TrackAudio
+	trackQualityOptions: AudioQualitySelection[]
 }
 
-export const TrackQualityPicker = ({ trackAudio }: TrackQualityPickerProps) => {
+export const TrackQualityPicker = ({ trackAudio, trackQualityOptions }: TrackQualityPickerProps) => {
+	const [selectedQualities, setSelectedQualities] = useState<SelectedAudioQualities>({
+		flac: null,
+		mp3_320: null,
+		mp3_128: null,
+		mp3_64: null
+	})
+
+	useEffect(() => {
+		const correctPicksCount = Object.keys(selectedQualities).reduce((acc, key) => {
+			const quality = key as AudioQualityInternal
+			return selectedQualities[quality] === quality ? acc + 1 : acc
+		}, 0)
+		console.log(correctPicksCount)
+	}, [selectedQualities])
+
+	const trackQualityLinks: [AudioQualityInternal, string][] = Object.entries(trackAudio.audioLinks) as [
+		AudioQualityInternal,
+		string
+	][]
+
 	return (
 		<div className={cn("flex", "flex-col", "gap-2", "justify-center", "items-start")}>
 			<div>{trackAudio.musicTrack.fullName}</div>
 			<div className={cn("flex", "flex-col", "gap-4")}>
-				{Object.entries(trackAudio.audioLinks).map(([quality, link]) => (
+				{trackQualityLinks.map(([quality, link]) => (
 					<div key={link} className={cn("flex", "flex-row", "gap-2")}>
 						<Button className={cn("w-16")} variant={"outline"}>
 							play
 						</Button>
-						<Select>
-							<SelectTrigger className={cn("w-32")}>
-								<SelectValue placeholder="quality" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectGroup>
-									<SelectItem value="flac">flac</SelectItem>
-									<SelectItem value="mp3_320">320kbps</SelectItem>
-									<SelectItem value="mp3_128">120kbps</SelectItem>
-									<SelectItem value="mp3_64">64kbps</SelectItem>
-								</SelectGroup>
-							</SelectContent>
-						</Select>
+						<SelectQuality
+							trackQualityOptions={trackQualityOptions}
+							selectForQuality={quality}
+							setSelectedQualities={setSelectedQualities}
+						/>
 					</div>
 				))}
 			</div>

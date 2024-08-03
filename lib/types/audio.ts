@@ -12,10 +12,22 @@ export type MusicTrack = {
 	[K in keyof TrackDetails]: { shortName: K; fullName: TrackDetails[K] }
 }[keyof TrackDetails]
 
-type AudioQuality = "flac" | "mp3_320" | "mp3_128" | "mp3_64"
+type AudioQualities = {
+	flac: "flac"
+	mp3_320: "320kbps"
+	mp3_128: "128kbps"
+	mp3_64: "64kbps"
+}
+
+export type AudioQualityInternal = keyof AudioQualities
+export type AudioQuality = AudioQualities[AudioQualityInternal]
+
+export type AudioQualitySelection = {
+	[K in keyof AudioQualities]: { internal: K; display: AudioQualities[K] }
+}[keyof AudioQualities]
 
 export type AudioLinks = {
-	[K in AudioQuality]: string
+	[K in AudioQualityInternal]: string
 }
 
 export type TrackAudio = {
