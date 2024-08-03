@@ -2,9 +2,9 @@
 
 import { SelectQuality } from "@/components/track-picker/select-quality"
 import { Button } from "@/components/ui/button"
+import { useAudioPlayer } from "@/lib/hooks/use-audio-player"
 import type { AudioQualityInternal, AudioQualitySelection, TrackAudio } from "@/lib/types/audio"
 import type { SelectedAudioQualities } from "@/lib/types/select"
-import { useAudioPlayer } from "@/lib/use-audio-player"
 import { cn } from "@/lib/utils"
 import type { Dispatch, SetStateAction } from "react"
 

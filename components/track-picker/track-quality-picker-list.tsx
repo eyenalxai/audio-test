@@ -2,11 +2,11 @@
 
 import { TrackQualityPicker } from "@/components/track-picker/track-quality-picker"
 import { Button } from "@/components/ui/button"
+import { useAudioPlayer } from "@/lib/hooks/use-audio-player"
 import { shuffleAudioLinks } from "@/lib/shuffle"
 import { trackQualityOptions } from "@/lib/tracks"
 import type { TrackAudio } from "@/lib/types/audio"
 import type { SelectedAudioQualities } from "@/lib/types/select"
-import { useAudioPlayer } from "@/lib/use-audio-player"
 import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
 

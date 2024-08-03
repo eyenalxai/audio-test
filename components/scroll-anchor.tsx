@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { useNotAtTop } from "@/lib/use-not-at-bottom"
+import { useNotAtTop } from "@/lib/hooks/use-not-at-bottom"
 import { cn } from "@/lib/utils"
 import { ArrowUp } from "lucide-react"
 
