@@ -10,6 +10,7 @@ import type { Dispatch, SetStateAction } from "react"
 
 type TrackQualityPickerProps = {
 	displayResults: boolean
+	allLoaded: boolean
 	trackAudio: TrackAudio
 	trackQualityOptions: AudioQualitySelection[]
 	selectedQualities: SelectedAudioQualities
@@ -18,6 +19,7 @@ type TrackQualityPickerProps = {
 
 export const TrackQualityPicker = ({
 	displayResults,
+	allLoaded,
 	trackAudio,
 	trackQualityOptions,
 	selectedQualities,
@@ -37,6 +39,7 @@ export const TrackQualityPicker = ({
 				{trackQualityLinks.map(([internalQuality, link]) => (
 					<div key={link} className={cn("flex", "flex-row", "gap-2", "items-center")}>
 						<Button
+							disabled={!allLoaded}
 							type={"button"}
 							onClick={() => {
 								playingUrl === link ? setPlayingUrl(null) : setPlayingUrl(link)
