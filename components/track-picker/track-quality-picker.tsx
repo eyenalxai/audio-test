@@ -1,11 +1,11 @@
 "use client"
 
-import { SelectQuality } from "@/components/select-quality"
-import { Button } from "@/components/ui/button"
-import type { AudioQualityInternal, AudioQualitySelection, TrackAudio } from "@/lib/types/audio"
-import type { SelectedAudioQualities } from "@/lib/types/select"
-import { cn } from "@/lib/utils"
-import type { Dispatch, SetStateAction } from "react"
+import {SelectQuality} from "@/components/track-picker/select-quality"
+import {Button} from "@/components/ui/button"
+import type {AudioQualityInternal, AudioQualitySelection, TrackAudio} from "@/lib/types/audio"
+import type {SelectedAudioQualities} from "@/lib/types/select"
+import {cn} from "@/lib/utils"
+import type {Dispatch, SetStateAction} from "react"
 
 type TrackQualityPickerProps = {
 	displayResults: boolean

@@ -1,7 +1,7 @@
-import { PreloadAudio } from "@/components/preload-audio"
-import { TrackQualityPickerList } from "@/components/track-quality-picker-list"
-import { trackAudios } from "@/lib/tracks"
-import { cn } from "@/lib/utils"
+import {PreloadAudio} from "@/components/preload-audio"
+import {TrackQualityPickerList} from "@/components/track-picker/track-quality-picker-list"
+import {trackAudios} from "@/lib/tracks"
+import {cn} from "@/lib/utils"
 
 export default function Page() {
 	return (
