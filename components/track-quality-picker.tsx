@@ -42,6 +42,7 @@ export const TrackQualityPicker = ({
 							selectForQuality={internalQuality}
 							selectedQualities={selectedQualities}
 							setSelectedQualities={setSelectedQualities}
+							displayResults={displayResults}
 						/>
 						{displayResults && (
 							<div

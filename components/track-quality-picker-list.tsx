@@ -71,7 +71,7 @@ export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListPr
 				/>
 			))}
 			<div className={cn("flex", "flex-row", "gap-2")}>
-				<Button disabled={!allSelected} onClick={() => setDisplayResults(true)}>
+				<Button disabled={!allSelected || displayResults} onClick={() => setDisplayResults(true)}>
 					check
 				</Button>
 				{displayResults && (

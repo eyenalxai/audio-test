@@ -16,6 +16,7 @@ type SelectQualityProps = {
 	selectForQuality: AudioQualityInternal
 	selectedQualities: SelectedAudioQualities
 	setSelectedQualities: Dispatch<SetStateAction<SelectedAudioQualities>>
+	displayResults: boolean
 }
 
 export const SelectQuality = ({
@@ -23,7 +24,8 @@ export const SelectQuality = ({
 	selectForShortName,
 	selectForQuality,
 	selectedQualities,
-	setSelectedQualities
+	setSelectedQualities,
+	displayResults
 }: SelectQualityProps) => {
 	const selectQualityFormSchema = z.object({
 		quality: z
@@ -62,6 +64,7 @@ export const SelectQuality = ({
 					render={({ field }) => (
 						<FormItem>
 							<Select
+								disabled={displayResults}
 								onValueChange={(value: AudioQualityInternal) => {
 									form.setValue("quality", value, { shouldValidate: true })
 									form.handleSubmit(onSubmit)()
