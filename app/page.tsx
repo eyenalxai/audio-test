@@ -1,5 +1,5 @@
 import { PreloadAudio } from "@/components/preload-audio"
-import { TrackPlayer } from "@/components/track-player"
+import { TrackQualityPicker } from "@/components/track-quality-picker"
 import { createMultipleTrackAudios } from "@/lib/track-urls"
 import type { MusicTrack } from "@/lib/types/audio"
 import { cn } from "@/lib/utils"
@@ -25,7 +25,7 @@ export default function Page() {
 			<PreloadAudio trackAudios={trackAudios} />
 			<div className={cn("w-full", "flex", "flex-col", "justify-center", "items-start", "gap-8")}>
 				{trackAudios.map((trackAudio) => (
-					<TrackPlayer key={trackAudio.musicTrack.shortName} trackAudio={trackAudio} />
+					<TrackQualityPicker key={trackAudio.musicTrack.shortName} trackAudio={trackAudio} />
 				))}
 			</div>
 		</main>

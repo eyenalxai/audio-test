@@ -3,11 +3,11 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import type { TrackAudio } from "@/lib/types/audio"
 import { cn } from "@/lib/utils"
 
-type TracksPlayerProps = {
+type TrackQualityPickerProps = {
 	trackAudio: TrackAudio
 }
 
-export const TrackPlayer = ({ trackAudio }: TracksPlayerProps) => {
+export const TrackQualityPicker = ({ trackAudio }: TrackQualityPickerProps) => {
 	return (
 		<div className={cn("flex", "flex-col", "gap-2", "justify-center", "items-start")}>
 			<div>{trackAudio.musicTrack.fullName}</div>
