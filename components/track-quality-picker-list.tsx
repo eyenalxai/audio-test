@@ -46,8 +46,10 @@ export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListPr
 			{trackAudios.map((trackAudio) => (
 				<TrackQualityPicker
 					key={trackAudio.musicTrack.shortName}
+					displayResults={displayResults}
 					trackAudio={trackAudio}
 					trackQualityOptions={trackQualityOptions}
+					selectedQualities={selectedQualities}
 					setSelectedQualities={setSelectedQualities}
 				/>
 			))}
@@ -55,8 +57,12 @@ export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListPr
 				check
 			</Button>
 			{displayResults && (
-				<div>
-					<div>{`You got ${correctPicks} out of ${totalOptions} correct`}</div>
+				<div className={cn("flex", "flex-row", "gap-4")}>
+					<span>you got</span>
+					<span className={cn(correctPicks === totalOptions ? "text-green-500" : "text-red-500")}>
+						{correctPicks} out of {totalOptions}
+					</span>
+					<span>correct</span>
 				</div>
 			)}
 		</div>
