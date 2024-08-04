@@ -7,7 +7,6 @@ import { useAudioPlayer } from "@/lib/hooks/use-audio-player"
 import type { AudioQualityInternal, AudioQualitySelection, TrackAudio } from "@/lib/types/audio"
 import type { SelectedAudioQualities } from "@/lib/types/select"
 import { cn } from "@/lib/utils"
-import { Loader } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useInView } from "react-intersection-observer"
 
@@ -99,15 +98,7 @@ export const TrackQualityPicker = ({
 							className={cn("w-16")}
 							variant={"outline"}
 						>
-							{allLoaded ? (
-								isCurrentlyPlaying(trackAudio.musicTrack.shortName, internalQuality) ? (
-									"stop"
-								) : (
-									"play"
-								)
-							) : (
-								<Loader className={cn("animate-spin")} />
-							)}
+							{isCurrentlyPlaying(trackAudio.musicTrack.shortName, internalQuality) ? "stop" : "play"}
 						</Button>
 						{learningMode ? (
 							<div className={cn("ml-[0.815rem]", "text-sm")}>{getDisplayQuality(internalQuality)}</div>
