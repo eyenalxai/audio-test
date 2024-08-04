@@ -42,6 +42,12 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 		setShuffledTrackAudios(shuffleAudioLinks(trackAudios))
 	}, [trackAudios, displayResults])
 
+	useEffect(() => {
+		if (displayResults) {
+			window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" })
+		}
+	}, [displayResults])
+
 	const resetAll = () => {
 		setCurrentlyPlayingShortName(undefined)
 		setCurrentlyPlayingQuality(undefined)
