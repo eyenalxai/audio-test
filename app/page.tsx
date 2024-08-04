@@ -17,7 +17,7 @@ export default function Page() {
 		setKeepPlaybackTime,
 		tracksToUse,
 		selectedQualities,
-		setSelectedQualities,
+		selectQuality,
 		correctPicks,
 		totalOptions,
 		resetAll,
@@ -52,7 +52,7 @@ export default function Page() {
 					trackAudio={trackAudio}
 					trackQualityOptions={trackQualityOptions}
 					selectedQualities={selectedQualities}
-					setSelectedQualities={setSelectedQualities}
+					selectQuality={selectQuality}
 				/>
 			))}
 			<div className={cn("flex", "flex-row", "gap-2")}>

@@ -1,9 +1,15 @@
 import { useAudioPlayer } from "@/lib/hooks/use-audio-player"
 import { shuffleAudioLinks } from "@/lib/shuffle"
 import { trackAudios, trackQualityOptions } from "@/lib/tracks"
-import type { TrackAudio } from "@/lib/types/audio"
+import type { AudioQualityInternal, ShortName, TrackAudio } from "@/lib/types/audio"
 import type { SelectedAudioQualities } from "@/lib/types/select"
 import { useCallback, useEffect, useMemo, useState } from "react"
+
+export type SelectQualityFnProps = {
+	selectForShortName: ShortName
+	selectForQuality: AudioQualityInternal
+	value: AudioQualityInternal
+}
 
 export const useAudioTest = () => {
 	const [learningMode, setLearningMode] = useState(false)
@@ -22,6 +28,16 @@ export const useAudioTest = () => {
 			])
 		)
 	)
+
+	const selectQuality = ({ selectForShortName, selectForQuality, value }: SelectQualityFnProps) => {
+		setSelectedQualities((prev) => ({
+			...prev,
+			[selectForShortName]: {
+				...prev[selectForShortName],
+				[selectForQuality]: value
+			}
+		}))
+	}
 
 	const { setCurrentlyPlayingShortName, setCurrentlyPlayingQuality, keepPlaybackTime, setKeepPlaybackTime } =
 		useAudioPlayer()
@@ -85,7 +101,7 @@ export const useAudioTest = () => {
 		setKeepPlaybackTime,
 		tracksToUse,
 		selectedQualities,
-		setSelectedQualities,
+		selectQuality,
 		correctPicks,
 		totalOptions,
 		resetAll,

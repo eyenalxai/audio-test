@@ -2,11 +2,12 @@
 
 import { SelectQuality } from "@/components/track-picker/select-quality"
 import { Button } from "@/components/ui/button"
+import type { SelectQualityFnProps } from "@/lib/hooks/audio-test"
 import { useAudioPlayer } from "@/lib/hooks/use-audio-player"
 import type { AudioQualityInternal, AudioQualitySelection, TrackAudio } from "@/lib/types/audio"
 import type { SelectedAudioQualities } from "@/lib/types/select"
 import { cn } from "@/lib/utils"
-import { type Dispatch, type SetStateAction, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 
 type TrackQualityPickerProps = {
 	learningMode: boolean
@@ -15,7 +16,7 @@ type TrackQualityPickerProps = {
 	trackAudio: TrackAudio
 	trackQualityOptions: AudioQualitySelection[]
 	selectedQualities: SelectedAudioQualities
-	setSelectedQualities: Dispatch<SetStateAction<SelectedAudioQualities>>
+	selectQuality: (props: SelectQualityFnProps) => void
 }
 
 export const TrackQualityPicker = ({
@@ -24,7 +25,7 @@ export const TrackQualityPicker = ({
 	trackAudio,
 	trackQualityOptions,
 	selectedQualities,
-	setSelectedQualities
+	selectQuality
 }: TrackQualityPickerProps) => {
 	const [allLoaded, setAllLoaded] = useState(false)
 
@@ -103,7 +104,7 @@ export const TrackQualityPicker = ({
 								selectForShortName={trackAudio.musicTrack.shortName}
 								selectForQuality={internalQuality}
 								selectedQualities={selectedQualities}
-								setSelectedQualities={setSelectedQualities}
+								selectQuality={selectQuality}
 								displayResults={displayResults}
 							/>
 						)}
