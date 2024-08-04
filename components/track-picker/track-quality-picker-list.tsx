@@ -97,7 +97,7 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 			))}
 			<div className={cn("flex", "flex-row", "gap-2")}>
 				<Button
-					disabled={!allSelected || displayResults}
+					disabled={displayResults}
 					onClick={() => {
 						setCurrentlyPlayingShortName(undefined)
 						setCurrentlyPlayingQuality(undefined)
