@@ -1,7 +1,9 @@
 import { createMultipleTrackAudios } from "@/lib/track-urls"
-import type { AudioQualitySelection } from "@/lib/types/audio"
+import type { AudioBaseUrl, AudioQualitySelection } from "@/lib/types/audio"
 
-const baseUrl = "https://audio-test.fra1.cdn.digitaloceanspaces.com"
+const baseUrl = process.env.NEXT_PUBLIC_AUDIO_BASE_URL as AudioBaseUrl | undefined
+
+if (!baseUrl) throw new Error("NEXT_PUBLIC_AUDIO_BASE_URL is not set")
 
 export const tracks = [
 	{
