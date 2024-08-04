@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 import type { Dispatch, SetStateAction } from "react"
 
 type TrackQualityPickerProps = {
+	learningMode: boolean
 	displayResults: boolean
 	allLoaded: boolean
 	trackAudio: TrackAudio
@@ -18,6 +19,7 @@ type TrackQualityPickerProps = {
 }
 
 export const TrackQualityPicker = ({
+	learningMode,
 	displayResults,
 	allLoaded,
 	trackAudio,
@@ -50,6 +52,9 @@ export const TrackQualityPicker = ({
 		setCurrentlyPlayingQuality(undefined)
 	}
 
+	const getDisplayQuality = (internalQuality: AudioQualityInternal) =>
+		trackQualityOptions.find((quality) => quality.internal === internalQuality)?.display
+
 	return (
 		<div className={cn("flex", "flex-col", "gap-2", "justify-center", "items-start")}>
 			<div>{trackAudio.musicTrack.fullName}</div>
@@ -69,14 +74,19 @@ export const TrackQualityPicker = ({
 						>
 							{isCurrentlyPlaying(trackAudio.musicTrack.shortName, internalQuality) ? "stop" : "play"}
 						</Button>
-						<SelectQuality
-							trackQualityOptions={trackQualityOptions}
-							selectForShortName={trackAudio.musicTrack.shortName}
-							selectForQuality={internalQuality}
-							selectedQualities={selectedQualities}
-							setSelectedQualities={setSelectedQualities}
-							displayResults={displayResults}
-						/>
+						{learningMode ? (
+							<div className={cn("ml-[0.815rem]", "text-sm")}>{getDisplayQuality(internalQuality)}</div>
+						) : (
+							<SelectQuality
+								trackQualityOptions={trackQualityOptions}
+								selectForShortName={trackAudio.musicTrack.shortName}
+								selectForQuality={internalQuality}
+								selectedQualities={selectedQualities}
+								setSelectedQualities={setSelectedQualities}
+								displayResults={displayResults}
+							/>
+						)}
+
 						{displayResults && (
 							<div
 								className={cn(

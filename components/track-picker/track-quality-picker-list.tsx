@@ -10,7 +10,7 @@ import { trackQualityOptions } from "@/lib/tracks"
 import type { TrackAudio } from "@/lib/types/audio"
 import type { SelectedAudioQualities } from "@/lib/types/select"
 import { cn } from "@/lib/utils"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 type TrackQualityPickerListProps = {
 	trackAudios: TrackAudio[]
@@ -18,6 +18,7 @@ type TrackQualityPickerListProps = {
 }
 
 export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityPickerListProps) => {
+	const [learningMode, setLearningMode] = useState(false)
 	const [displayResults, setDisplayResults] = useState(false)
 	const [shuffledTrackAudios, setShuffledTrackAudios] = useState<TrackAudio[] | undefined>(undefined)
 	const [selectedQualities, setSelectedQualities] = useState<SelectedAudioQualities>(
@@ -48,7 +49,7 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 		}
 	}, [displayResults])
 
-	const resetAll = () => {
+	const resetAll = useCallback(() => {
 		setCurrentlyPlayingShortName(undefined)
 		setCurrentlyPlayingQuality(undefined)
 		setDisplayResults(false)
@@ -65,7 +66,13 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 				])
 			)
 		)
-	}
+	}, [setCurrentlyPlayingShortName, setCurrentlyPlayingQuality, trackAudios])
+
+	useEffect(() => {
+		if (!learningMode) {
+			resetAll()
+		}
+	}, [learningMode, resetAll])
 
 	const totalOptions = trackAudios.length * trackQualityOptions.length
 
@@ -76,23 +83,30 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 		return total + correctPicks
 	}, 0)
 
-	const allSelected = Object.values(selectedQualities).every((qualities) =>
-		Object.values(qualities).every((value) => value !== null)
-	)
+	if (!shuffledTrackAudios) return null
 
-	if (!shuffledTrackAudios) {
-		return null
-	}
+	const tracksToUse = learningMode ? trackAudios : shuffledTrackAudios
 
 	return (
 		<div className={cn("w-full", "flex", "flex-col", "justify-center", "items-start", "gap-8")}>
-			<div className={cn("flex", "flex-row", "gap-2", "items-center")}>
-				<Switch checked={keepPlaybackTime} onCheckedChange={(checked) => setKeepPlaybackTime(checked)} />
-				<Label>keep playback time</Label>
+			<div className={cn("flex", "flex-col", "gap-2")}>
+				<div className={cn("flex", "flex-row", "gap-2", "items-center")}>
+					<Switch
+						disabled={displayResults}
+						checked={learningMode}
+						onCheckedChange={(checked) => setLearningMode(checked)}
+					/>
+					<Label>learning mode</Label>
+				</div>
+				<div className={cn("flex", "flex-row", "gap-2", "items-center")}>
+					<Switch checked={keepPlaybackTime} onCheckedChange={(checked) => setKeepPlaybackTime(checked)} />
+					<Label>keep playback time</Label>
+				</div>
 			</div>
-			{shuffledTrackAudios.map((trackAudio) => (
+			{tracksToUse.map((trackAudio) => (
 				<TrackQualityPicker
 					key={trackAudio.musicTrack.shortName}
+					learningMode={learningMode}
 					allLoaded={allLoaded}
 					displayResults={displayResults}
 					trackAudio={trackAudio}
@@ -102,16 +116,18 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 				/>
 			))}
 			<div className={cn("flex", "flex-row", "gap-2")}>
-				<Button
-					disabled={displayResults}
-					onClick={() => {
-						setCurrentlyPlayingShortName(undefined)
-						setCurrentlyPlayingQuality(undefined)
-						setDisplayResults(true)
-					}}
-				>
-					check
-				</Button>
+				{!learningMode && (
+					<Button
+						disabled={displayResults}
+						onClick={() => {
+							setCurrentlyPlayingShortName(undefined)
+							setCurrentlyPlayingQuality(undefined)
+							setDisplayResults(true)
+						}}
+					>
+						check
+					</Button>
+				)}
 				{displayResults && (
 					<Button variant={"outline"} onClick={() => resetAll()}>
 						reset
