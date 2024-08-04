@@ -18,11 +18,19 @@ export const AudioPlayerContext = createContext<
 
 type AudioPlayerProps = {
 	currentlyPlayingShortName: ShortName | undefined
+	setCurrentlyPlayingShortName: Dispatch<SetStateAction<ShortName | undefined>>
 	currentlyPlayingQuality: AudioQualityInternal | undefined
+	setCurrentlyPlayingQuality: Dispatch<SetStateAction<AudioQualityInternal | undefined>>
 	keepPlaybackTime: boolean
 }
 
-const AudioPlayer = ({ currentlyPlayingShortName, currentlyPlayingQuality, keepPlaybackTime }: AudioPlayerProps) => {
+const AudioPlayer = ({
+	currentlyPlayingShortName,
+	setCurrentlyPlayingShortName,
+	currentlyPlayingQuality,
+	setCurrentlyPlayingQuality,
+	keepPlaybackTime
+}: AudioPlayerProps) => {
 	const audios: Record<AudioQualityInternal, HTMLAudioElement> | null = useMemo(
 		() =>
 			typeof Audio !== "undefined"
@@ -47,6 +55,10 @@ const AudioPlayer = ({ currentlyPlayingShortName, currentlyPlayingQuality, keepP
 			for (const [quality, audio] of Object.entries(audios)) {
 				audio.src = trackAudioLinks[quality as AudioQualityInternal]
 				audio.play().catch((error) => console.error(`${quality} Playback failed:`, error))
+				audio.onended = () => {
+					setCurrentlyPlayingShortName(undefined)
+					setCurrentlyPlayingQuality(undefined)
+				}
 			}
 		}
 
@@ -54,9 +66,10 @@ const AudioPlayer = ({ currentlyPlayingShortName, currentlyPlayingQuality, keepP
 			for (const audio of Object.values(audios)) {
 				audio.pause()
 				audio.src = ""
+				audio.onended = null
 			}
 		}
-	}, [audios, currentlyPlayingShortName])
+	}, [audios, currentlyPlayingShortName, setCurrentlyPlayingShortName, setCurrentlyPlayingQuality])
 
 	useEffect(() => {
 		if (audios) {
@@ -94,7 +107,9 @@ export const AudioPlayerContextProvider = ({ children }: AudioPlayerContextProvi
 		>
 			<AudioPlayer
 				currentlyPlayingShortName={currentlyPlayingShortName}
+				setCurrentlyPlayingShortName={setCurrentlyPlayingShortName}
 				currentlyPlayingQuality={currentlyPlayingQuality}
+				setCurrentlyPlayingQuality={setCurrentlyPlayingQuality}
 				keepPlaybackTime={keepPlaybackTime}
 			/>
 			{children}
