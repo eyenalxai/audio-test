@@ -2,6 +2,8 @@
 
 import { TrackQualityPicker } from "@/components/track-picker/track-quality-picker"
 import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
 import { useAudioPlayer } from "@/lib/hooks/use-audio-player"
 import { shuffleAudioLinks } from "@/lib/shuffle"
 import { trackQualityOptions } from "@/lib/tracks"
@@ -32,7 +34,8 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 		)
 	)
 
-	const { setCurrentlyPlayingShortName, setCurrentlyPlayingQuality } = useAudioPlayer()
+	const { setCurrentlyPlayingShortName, setCurrentlyPlayingQuality, keepPlaybackTime, setKeepPlaybackTime } =
+		useAudioPlayer()
 
 	useEffect(() => {
 		if (displayResults) return
@@ -77,6 +80,10 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 
 	return (
 		<div className={cn("w-full", "flex", "flex-col", "justify-center", "items-start", "gap-8")}>
+			<div className={cn("flex", "flex-row", "gap-2", "items-center")}>
+				<Switch checked={keepPlaybackTime} onCheckedChange={(checked) => setKeepPlaybackTime(checked)} />
+				<Label>keep playback time</Label>
+			</div>
 			{shuffledTrackAudios.map((trackAudio) => (
 				<TrackQualityPicker
 					key={trackAudio.musicTrack.shortName}

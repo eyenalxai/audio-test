@@ -10,6 +10,8 @@ export const AudioPlayerContext = createContext<
 			setCurrentlyPlayingShortName: Dispatch<SetStateAction<ShortName | undefined>>
 			currentlyPlayingQuality: AudioQualityInternal | undefined
 			setCurrentlyPlayingQuality: Dispatch<SetStateAction<AudioQualityInternal | undefined>>
+			keepPlaybackTime: boolean
+			setKeepPlaybackTime: Dispatch<SetStateAction<boolean>>
 	  }
 	| undefined
 >(undefined)
@@ -17,9 +19,10 @@ export const AudioPlayerContext = createContext<
 type AudioPlayerProps = {
 	currentlyPlayingShortName: ShortName | undefined
 	currentlyPlayingQuality: AudioQualityInternal | undefined
+	keepPlaybackTime: boolean
 }
 
-const AudioPlayer = ({ currentlyPlayingShortName, currentlyPlayingQuality }: AudioPlayerProps) => {
+const AudioPlayer = ({ currentlyPlayingShortName, currentlyPlayingQuality, keepPlaybackTime }: AudioPlayerProps) => {
 	const audios: Record<AudioQualityInternal, HTMLAudioElement> | null = useMemo(
 		() =>
 			typeof Audio !== "undefined"
@@ -59,9 +62,12 @@ const AudioPlayer = ({ currentlyPlayingShortName, currentlyPlayingQuality }: Aud
 		if (audios) {
 			for (const [quality, audio] of Object.entries(audios)) {
 				audio.muted = quality !== currentlyPlayingQuality
+				if (!keepPlaybackTime) {
+					audio.currentTime = 0
+				}
 			}
 		}
-	}, [audios, currentlyPlayingQuality])
+	}, [audios, currentlyPlayingQuality, keepPlaybackTime])
 
 	return null
 }
@@ -73,6 +79,7 @@ type AudioPlayerContextProviderProps = {
 export const AudioPlayerContextProvider = ({ children }: AudioPlayerContextProviderProps) => {
 	const [currentlyPlayingShortName, setCurrentlyPlayingShortName] = useState<ShortName | undefined>(undefined)
 	const [currentlyPlayingQuality, setCurrentlyPlayingQuality] = useState<AudioQualityInternal | undefined>(undefined)
+	const [keepPlaybackTime, setKeepPlaybackTime] = useState(false)
 
 	return (
 		<AudioPlayerContext.Provider
@@ -80,12 +87,15 @@ export const AudioPlayerContextProvider = ({ children }: AudioPlayerContextProvi
 				currentlyPlayingShortName,
 				setCurrentlyPlayingShortName,
 				currentlyPlayingQuality,
-				setCurrentlyPlayingQuality
+				setCurrentlyPlayingQuality,
+				keepPlaybackTime,
+				setKeepPlaybackTime
 			}}
 		>
 			<AudioPlayer
 				currentlyPlayingShortName={currentlyPlayingShortName}
 				currentlyPlayingQuality={currentlyPlayingQuality}
+				keepPlaybackTime={keepPlaybackTime}
 			/>
 			{children}
 		</AudioPlayerContext.Provider>
