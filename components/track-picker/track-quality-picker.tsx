@@ -7,7 +7,9 @@ import { useAudioPlayer } from "@/lib/hooks/use-audio-player"
 import type { AudioQualityInternal, AudioQualitySelection, TrackAudio } from "@/lib/types/audio"
 import type { SelectedAudioQualities } from "@/lib/types/select"
 import { cn } from "@/lib/utils"
+import { Loader } from "lucide-react"
 import { useEffect, useState } from "react"
+import { useInView } from "react-intersection-observer"
 
 type TrackQualityPickerProps = {
 	learningMode: boolean
@@ -27,9 +29,11 @@ export const TrackQualityPicker = ({
 	selectedQualities,
 	selectQuality
 }: TrackQualityPickerProps) => {
+	const { ref, inView } = useInView()
 	const [allLoaded, setAllLoaded] = useState(false)
 
 	useEffect(() => {
+		if (!inView) return
 		const promises: Promise<void>[] = []
 
 		for (const link of Object.values(trackAudio.audioLinks)) {
@@ -47,7 +51,7 @@ export const TrackQualityPicker = ({
 		Promise.all(promises).then(() => {
 			setAllLoaded(true)
 		})
-	}, [trackAudio.audioLinks])
+	}, [trackAudio.audioLinks, inView])
 
 	const {
 		currentlyPlayingShortName,
@@ -79,6 +83,7 @@ export const TrackQualityPicker = ({
 
 	return (
 		<div className={cn("flex", "flex-col", "gap-2", "justify-center", "items-start")}>
+			<div ref={ref} />
 			<div>{trackAudio.musicTrack.fullName}</div>
 			<div className={cn("flex", "flex-col", "gap-4")}>
 				{trackQualityLinks.map(([internalQuality, link]) => (
@@ -94,12 +99,21 @@ export const TrackQualityPicker = ({
 							className={cn("w-16")}
 							variant={"outline"}
 						>
-							{isCurrentlyPlaying(trackAudio.musicTrack.shortName, internalQuality) ? "stop" : "play"}
+							{allLoaded ? (
+								isCurrentlyPlaying(trackAudio.musicTrack.shortName, internalQuality) ? (
+									"stop"
+								) : (
+									"play"
+								)
+							) : (
+								<Loader className={cn("animate-spin")} />
+							)}
 						</Button>
 						{learningMode ? (
 							<div className={cn("ml-[0.815rem]", "text-sm")}>{getDisplayQuality(internalQuality)}</div>
 						) : (
 							<SelectQuality
+								allLoaded={allLoaded}
 								trackQualityOptions={trackQualityOptions}
 								selectForShortName={trackAudio.musicTrack.shortName}
 								selectForQuality={internalQuality}

@@ -5,6 +5,7 @@ import type { SelectedAudioQualities } from "@/lib/types/select"
 import { cn } from "@/lib/utils"
 
 type SelectQualityProps = {
+	allLoaded: boolean
 	trackQualityOptions: AudioQualitySelection[]
 	selectForShortName: ShortName
 	selectForQuality: AudioQualityInternal
@@ -14,6 +15,7 @@ type SelectQualityProps = {
 }
 
 export const SelectQuality = ({
+	allLoaded,
 	trackQualityOptions,
 	selectForShortName,
 	selectForQuality,
@@ -24,7 +26,7 @@ export const SelectQuality = ({
 	return (
 		<Select
 			key={selectForShortName + selectForQuality}
-			disabled={displayResults}
+			disabled={displayResults || !allLoaded}
 			onValueChange={(value: AudioQualityInternal) => selectQuality({ selectForShortName, selectForQuality, value })}
 			value={selectedQualities[selectForShortName][selectForQuality]}
 		>
