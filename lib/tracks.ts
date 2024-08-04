@@ -42,7 +42,7 @@ export const trackAudios = createMultipleTrackAudios(tracks, baseUrl)
 export const trackQualityOptions: AudioQualitySelection[] = [
 	{
 		internal: "flac",
-		display: "flac"
+		display: "lossless"
 	},
 	{
 		internal: "mp3_320",

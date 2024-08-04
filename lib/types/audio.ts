@@ -5,7 +5,7 @@ export type AudioBaseUrl = `https://${string}`
 export type MusicTrack = (typeof tracks)[number]
 
 type AudioQualities = {
-	flac: "flac"
+	flac: "lossless"
 	mp3_320: "320kbps"
 	mp3_128: "128kbps"
 	mp3_64: "64kbps"
