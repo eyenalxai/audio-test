@@ -14,10 +14,9 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 
 type TrackQualityPickerListProps = {
 	trackAudios: TrackAudio[]
-	allLoaded: boolean
 }
 
-export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityPickerListProps) => {
+export const TrackQualityPickerList = ({ trackAudios }: TrackQualityPickerListProps) => {
 	const [learningMode, setLearningMode] = useState(false)
 	const [displayResults, setDisplayResults] = useState(false)
 	const [shuffledTrackAudios, setShuffledTrackAudios] = useState<TrackAudio[] | undefined>(undefined)
@@ -111,7 +110,6 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 				<TrackQualityPicker
 					key={trackAudio.musicTrack.shortName}
 					learningMode={learningMode}
-					allLoaded={allLoaded}
 					displayResults={displayResults}
 					trackAudio={trackAudio}
 					trackQualityOptions={trackQualityOptions}

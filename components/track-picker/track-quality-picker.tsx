@@ -6,12 +6,12 @@ import { useAudioPlayer } from "@/lib/hooks/use-audio-player"
 import type { AudioQualityInternal, AudioQualitySelection, TrackAudio } from "@/lib/types/audio"
 import type { SelectedAudioQualities } from "@/lib/types/select"
 import { cn } from "@/lib/utils"
-import type { Dispatch, SetStateAction } from "react"
+import { type Dispatch, type SetStateAction, useEffect, useState } from "react"
 
 type TrackQualityPickerProps = {
 	learningMode: boolean
 	displayResults: boolean
-	allLoaded: boolean
+
 	trackAudio: TrackAudio
 	trackQualityOptions: AudioQualitySelection[]
 	selectedQualities: SelectedAudioQualities
@@ -21,12 +21,33 @@ type TrackQualityPickerProps = {
 export const TrackQualityPicker = ({
 	learningMode,
 	displayResults,
-	allLoaded,
 	trackAudio,
 	trackQualityOptions,
 	selectedQualities,
 	setSelectedQualities
 }: TrackQualityPickerProps) => {
+	const [allLoaded, setAllLoaded] = useState(false)
+
+	useEffect(() => {
+		const promises: Promise<void>[] = []
+
+		for (const link of Object.values(trackAudio.audioLinks)) {
+			const audio = new Audio(link)
+			audio.preload = "auto"
+
+			const promise = new Promise<void>((resolve) => {
+				audio.oncanplaythrough = () => resolve()
+			})
+			promises.push(promise)
+
+			audio.load()
+		}
+
+		Promise.all(promises).then(() => {
+			setAllLoaded(true)
+		})
+	}, [trackAudio.audioLinks])
+
 	const {
 		currentlyPlayingShortName,
 		setCurrentlyPlayingShortName,
