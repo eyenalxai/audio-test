@@ -10,7 +10,7 @@ import { trackQualityOptions } from "@/lib/tracks"
 import type { TrackAudio } from "@/lib/types/audio"
 import type { SelectedAudioQualities } from "@/lib/types/select"
 import { cn } from "@/lib/utils"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 
 type TrackQualityPickerListProps = {
 	trackAudios: TrackAudio[]
@@ -76,12 +76,16 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 
 	const totalOptions = trackAudios.length * trackQualityOptions.length
 
-	const correctPicks = Object.values(selectedQualities).reduce((total, qualities) => {
-		const correctPicks = Object.entries(qualities).reduce((acc, [qualityKey, qualityValue]) => {
-			return acc + (qualityValue !== null && qualityKey === qualityValue ? 1 : 0)
-		}, 0)
-		return total + correctPicks
-	}, 0)
+	const correctPicks = useMemo(
+		() =>
+			Object.values(selectedQualities).reduce((total, qualities) => {
+				const correctPicks = Object.entries(qualities).reduce((acc, [qualityKey, qualityValue]) => {
+					return acc + (qualityValue !== null && qualityKey === qualityValue ? 1 : 0)
+				}, 0)
+				return total + correctPicks
+			}, 0),
+		[selectedQualities]
+	)
 
 	if (!shuffledTrackAudios) return null
 
