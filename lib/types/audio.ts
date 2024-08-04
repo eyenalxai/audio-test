@@ -8,6 +8,7 @@ type AudioQualities = {
 	flac: "lossless"
 	mp3_320: "320kbps"
 	mp3_128: "128kbps"
+	mp3_96: "96kbps"
 	mp3_64: "64kbps"
 }
 

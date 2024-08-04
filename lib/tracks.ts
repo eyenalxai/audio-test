@@ -53,6 +53,10 @@ export const trackQualityOptions: AudioQualitySelection[] = [
 		display: "128kbps"
 	},
 	{
+		internal: "mp3_96",
+		display: "96kbps"
+	},
+	{
 		internal: "mp3_64",
 		display: "64kbps"
 	}

@@ -23,6 +23,7 @@ export const useAudioTest = () => {
 					flac: "",
 					mp3_320: "",
 					mp3_128: "",
+					mp3_96: "",
 					mp3_64: ""
 				}
 			])
@@ -65,6 +66,7 @@ export const useAudioTest = () => {
 						flac: "",
 						mp3_320: "",
 						mp3_128: "",
+						mp3_96: "",
 						mp3_64: ""
 					}
 				])
