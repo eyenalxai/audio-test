@@ -2,7 +2,6 @@
 
 import { TrackQualityPickerList } from "@/components/track-picker/track-quality-picker-list"
 import { trackAudios } from "@/lib/tracks"
-import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
 
 export default function Page() {
@@ -30,9 +29,5 @@ export default function Page() {
 		})
 	}, [])
 
-	return (
-		<main className={cn("container", "mx-auto", "max-w-xl", "my-12")}>
-			<TrackQualityPickerList trackAudios={trackAudios} allLoaded={allLoaded} />
-		</main>
-	)
+	return <TrackQualityPickerList trackAudios={trackAudios} allLoaded={allLoaded} />
 }

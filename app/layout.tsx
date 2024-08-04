@@ -35,7 +35,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 		<html lang="en" suppressHydrationWarning>
 			<body className={cn("font-sans", "antialiased", fontMono.className)}>
 				<Providers attribute="class" defaultTheme="system" enableSystem>
-					{children}
+					<main className={cn("container", "mx-auto", "max-w-xl", "my-12")}>{children}</main>
 					<ScrollAnchor />
 				</Providers>
 			</body>
