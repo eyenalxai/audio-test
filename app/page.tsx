@@ -4,87 +4,29 @@ import { TrackQualityPicker } from "@/components/track-picker/track-quality-pick
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
-import { useAudioPlayer } from "@/lib/hooks/use-audio-player"
-import { shuffleAudioLinks } from "@/lib/shuffle"
-import { trackAudios, trackQualityOptions } from "@/lib/tracks"
-import type { TrackAudio } from "@/lib/types/audio"
-import type { SelectedAudioQualities } from "@/lib/types/select"
+import { useAudioTest } from "@/lib/hooks/audio-test"
+import { trackQualityOptions } from "@/lib/tracks"
 import { cn } from "@/lib/utils"
-import { useCallback, useEffect, useMemo, useState } from "react"
 
 export default function Page() {
-	const [learningMode, setLearningMode] = useState(false)
-	const [displayResults, setDisplayResults] = useState(false)
-	const [shuffledTrackAudios, setShuffledTrackAudios] = useState<TrackAudio[] | undefined>(undefined)
-	const [selectedQualities, setSelectedQualities] = useState<SelectedAudioQualities>(
-		Object.fromEntries(
-			trackAudios.map((trackAudio) => [
-				trackAudio.musicTrack.shortName,
-				{
-					flac: "",
-					mp3_320: "",
-					mp3_128: "",
-					mp3_64: ""
-				}
-			])
-		)
-	)
+	const {
+		displayResults,
+		learningMode,
+		setLearningMode,
+		keepPlaybackTime,
+		setKeepPlaybackTime,
+		tracksToUse,
+		selectedQualities,
+		setSelectedQualities,
+		correctPicks,
+		totalOptions,
+		resetAll,
+		setCurrentlyPlayingShortName,
+		setCurrentlyPlayingQuality,
+		setDisplayResults
+	} = useAudioTest()
 
-	const { setCurrentlyPlayingShortName, setCurrentlyPlayingQuality, keepPlaybackTime, setKeepPlaybackTime } =
-		useAudioPlayer()
-
-	useEffect(() => {
-		if (displayResults) return
-		setShuffledTrackAudios(shuffleAudioLinks(trackAudios))
-	}, [displayResults])
-
-	useEffect(() => {
-		if (displayResults) {
-			window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" })
-		}
-	}, [displayResults])
-
-	const resetAll = useCallback(() => {
-		setCurrentlyPlayingShortName(undefined)
-		setCurrentlyPlayingQuality(undefined)
-		setDisplayResults(false)
-		setSelectedQualities(
-			Object.fromEntries(
-				trackAudios.map((trackAudio) => [
-					trackAudio.musicTrack.shortName,
-					{
-						flac: "",
-						mp3_320: "",
-						mp3_128: "",
-						mp3_64: ""
-					}
-				])
-			)
-		)
-	}, [setCurrentlyPlayingShortName, setCurrentlyPlayingQuality])
-
-	useEffect(() => {
-		if (!learningMode) {
-			resetAll()
-		}
-	}, [learningMode, resetAll])
-
-	const totalOptions = trackAudios.length * trackQualityOptions.length
-
-	const correctPicks = useMemo(
-		() =>
-			Object.values(selectedQualities).reduce((total, qualities) => {
-				const correctPicks = Object.entries(qualities).reduce((acc, [qualityKey, qualityValue]) => {
-					return acc + (qualityValue !== null && qualityKey === qualityValue ? 1 : 0)
-				}, 0)
-				return total + correctPicks
-			}, 0),
-		[selectedQualities]
-	)
-
-	if (!shuffledTrackAudios) return null
-
-	const tracksToUse = learningMode ? trackAudios : shuffledTrackAudios
+	if (!tracksToUse) return null
 
 	return (
 		<div className={cn("w-full", "flex", "flex-col", "justify-center", "items-start", "gap-8")}>
