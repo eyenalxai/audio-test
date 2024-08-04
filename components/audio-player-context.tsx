@@ -1,6 +1,6 @@
 "use client"
 
-import { trackAudios } from "@/lib/tracks"
+import { trackAudios, trackQualityOptions } from "@/lib/tracks"
 import type { AudioQualityInternal, ShortName } from "@/lib/types/audio"
 import { type Dispatch, type ReactNode, type SetStateAction, createContext, useEffect, useMemo, useState } from "react"
 
@@ -31,18 +31,18 @@ const AudioPlayer = ({
 	setCurrentlyPlayingQuality,
 	keepPlaybackTime
 }: AudioPlayerProps) => {
-	const audios: Record<AudioQualityInternal, HTMLAudioElement> | null = useMemo(
-		() =>
-			typeof Audio !== "undefined"
-				? {
-						flac: new Audio(),
-						mp3_320: new Audio(),
-						mp3_128: new Audio(),
-						mp3_64: new Audio()
-					}
-				: null,
-		[]
-	)
+	const audios: Record<AudioQualityInternal, HTMLAudioElement> | null = useMemo(() => {
+		if (typeof Audio !== "undefined") {
+			return trackQualityOptions.reduce(
+				(acc, option) => {
+					acc[option.internal] = new Audio()
+					return acc
+				},
+				{} as Record<AudioQualityInternal, HTMLAudioElement>
+			)
+		}
+		return null
+	}, [])
 
 	useEffect(() => {
 		if (!currentlyPlayingShortName || !audios) return
