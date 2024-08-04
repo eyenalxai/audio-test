@@ -34,7 +34,7 @@ const AudioPlayer = ({ currentlyPlayingShortName, currentlyPlayingQuality }: Aud
 	)
 
 	useEffect(() => {
-		if (!currentlyPlayingShortName || !currentlyPlayingQuality || !audios) return
+		if (!currentlyPlayingShortName || !audios) return
 
 		const trackAudioLinks = trackAudios.find(
 			(track) => track.musicTrack.shortName === currentlyPlayingShortName
@@ -43,11 +43,7 @@ const AudioPlayer = ({ currentlyPlayingShortName, currentlyPlayingQuality }: Aud
 		if (trackAudioLinks) {
 			for (const [quality, audio] of Object.entries(audios)) {
 				audio.src = trackAudioLinks[quality as AudioQualityInternal]
-				audio.muted = quality !== currentlyPlayingQuality
-
-				if (quality === currentlyPlayingQuality) {
-					audio.play().catch((error) => console.error("Playback failed:", error))
-				}
+				audio.play().catch((error) => console.error(`${quality} Playback failed:`, error))
 			}
 		}
 
@@ -57,7 +53,15 @@ const AudioPlayer = ({ currentlyPlayingShortName, currentlyPlayingQuality }: Aud
 				audio.src = ""
 			}
 		}
-	}, [audios, currentlyPlayingShortName, currentlyPlayingQuality])
+	}, [audios, currentlyPlayingShortName])
+
+	useEffect(() => {
+		if (audios) {
+			for (const [quality, audio] of Object.entries(audios)) {
+				audio.muted = quality !== currentlyPlayingQuality
+			}
+		}
+	}, [audios, currentlyPlayingQuality])
 
 	return null
 }
