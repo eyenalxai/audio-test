@@ -25,10 +25,10 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 			trackAudios.map((trackAudio) => [
 				trackAudio.musicTrack.shortName,
 				{
-					flac: null,
-					mp3_320: null,
-					mp3_128: null,
-					mp3_64: null
+					flac: "",
+					mp3_320: "",
+					mp3_128: "",
+					mp3_64: ""
 				}
 			])
 		)
@@ -51,10 +51,10 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 				trackAudios.map((trackAudio) => [
 					trackAudio.musicTrack.shortName,
 					{
-						flac: null,
-						mp3_320: null,
-						mp3_128: null,
-						mp3_64: null
+						flac: "",
+						mp3_320: "",
+						mp3_128: "",
+						mp3_64: ""
 					}
 				])
 			)
