@@ -25,12 +25,30 @@ export const TrackQualityPicker = ({
 	selectedQualities,
 	setSelectedQualities
 }: TrackQualityPickerProps) => {
-	const { playingUrl, setPlayingUrl } = useAudioPlayer()
+	const {
+		currentlyPlayingShortName,
+		setCurrentlyPlayingShortName,
+		currentlyPlayingQuality,
+		setCurrentlyPlayingQuality
+	} = useAudioPlayer()
 
 	const trackQualityLinks: [AudioQualityInternal, string][] = Object.entries(trackAudio.audioLinks) as [
 		AudioQualityInternal,
 		string
 	][]
+
+	const isCurrentlyPlaying = (shortName: string, quality: AudioQualityInternal) =>
+		shortName === currentlyPlayingShortName && quality === currentlyPlayingQuality
+
+	const setPlaying = (shortName: string, quality: AudioQualityInternal) => {
+		setCurrentlyPlayingShortName(shortName)
+		setCurrentlyPlayingQuality(quality)
+	}
+
+	const setUnplaying = () => {
+		setCurrentlyPlayingShortName(undefined)
+		setCurrentlyPlayingQuality(undefined)
+	}
 
 	return (
 		<div className={cn("flex", "flex-col", "gap-2", "justify-center", "items-start")}>
@@ -42,12 +60,14 @@ export const TrackQualityPicker = ({
 							disabled={!allLoaded}
 							type={"button"}
 							onClick={() => {
-								playingUrl === link ? setPlayingUrl(undefined) : setPlayingUrl(link)
+								isCurrentlyPlaying(trackAudio.musicTrack.shortName, internalQuality)
+									? setUnplaying()
+									: setPlaying(trackAudio.musicTrack.shortName, internalQuality)
 							}}
 							className={cn("w-16")}
 							variant={"outline"}
 						>
-							{playingUrl === link ? "stop" : "play"}
+							{isCurrentlyPlaying(trackAudio.musicTrack.shortName, internalQuality) ? "stop" : "play"}
 						</Button>
 						<SelectQuality
 							trackQualityOptions={trackQualityOptions}

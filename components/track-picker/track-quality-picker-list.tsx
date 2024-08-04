@@ -32,7 +32,7 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 		)
 	)
 
-	const { setPlayingUrl } = useAudioPlayer()
+	const { setCurrentlyPlayingShortName, setCurrentlyPlayingQuality } = useAudioPlayer()
 
 	useEffect(() => {
 		if (displayResults) return
@@ -40,7 +40,8 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 	}, [trackAudios, displayResults])
 
 	const resetAll = () => {
-		setPlayingUrl(undefined)
+		setCurrentlyPlayingShortName(undefined)
+		setCurrentlyPlayingQuality(undefined)
 		setDisplayResults(false)
 		setSelectedQualities(
 			Object.fromEntries(
@@ -91,7 +92,8 @@ export const TrackQualityPickerList = ({ trackAudios, allLoaded }: TrackQualityP
 				<Button
 					disabled={!allSelected || displayResults}
 					onClick={() => {
-						setPlayingUrl(undefined)
+						setCurrentlyPlayingShortName(undefined)
+						setCurrentlyPlayingQuality(undefined)
 						setDisplayResults(true)
 					}}
 				>
