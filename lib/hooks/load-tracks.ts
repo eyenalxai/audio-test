@@ -31,7 +31,6 @@ export const useLoadTracks = ({ audioLinks }: UseLoadTracksProps) => {
 			const promise = new Promise<{ success: boolean }>((resolve) => {
 				const timeoutId = setTimeout(() => {
 					if (aborted.current) return
-					console.log("Timeout")
 					setLoadError(true)
 					audio.oncanplaythrough = null
 					resolve({ success: false })
@@ -52,7 +51,6 @@ export const useLoadTracks = ({ audioLinks }: UseLoadTracksProps) => {
 			if (aborted.current) return
 			const allSuccess = results.every((result) => result.success)
 			if (allSuccess && !loadError) {
-				console.log("All loaded")
 				setAllLoaded(true)
 			}
 		})
