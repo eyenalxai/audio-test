@@ -18,11 +18,10 @@ export const useLoadTracks = ({ audioLinks }: UseLoadTracksProps) => {
 	useEffect(() => {
 		if (allLoaded) return
 
-		const promises: Promise<{ success: boolean }>[] = []
-
 		aborted.current = !inView || loadError
-
 		if (aborted.current) return
+
+		const promises: Promise<{ success: boolean }>[] = []
 
 		for (const link of Object.values(audioLinks)) {
 			const audio = new Audio(link)
@@ -42,14 +41,16 @@ export const useLoadTracks = ({ audioLinks }: UseLoadTracksProps) => {
 					resolve({ success: true })
 				}
 			})
-			promises.push(promise)
 
+			promises.push(promise)
 			audio.load()
 		}
 
 		Promise.all(promises).then((results) => {
 			if (aborted.current) return
+
 			const allSuccess = results.every((result) => result.success)
+
 			if (allSuccess && !loadError) {
 				setAllLoaded(true)
 			}
