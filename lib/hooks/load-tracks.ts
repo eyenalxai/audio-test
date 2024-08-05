@@ -30,6 +30,7 @@ export const useLoadTracks = ({ audioLinks }: UseLoadTracksProps) => {
 			const promise = new Promise<{ success: boolean }>((resolve) => {
 				const timeoutId = setTimeout(() => {
 					if (aborted.current) return
+
 					setLoadError(true)
 					audio.oncanplaythrough = null
 					resolve({ success: false })
@@ -37,6 +38,7 @@ export const useLoadTracks = ({ audioLinks }: UseLoadTracksProps) => {
 
 				audio.oncanplaythrough = () => {
 					if (aborted.current) return
+
 					clearTimeout(timeoutId)
 					resolve({ success: true })
 				}
