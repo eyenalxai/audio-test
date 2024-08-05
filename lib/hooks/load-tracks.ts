@@ -1,5 +1,5 @@
 import type { AudioLinks } from "@/lib/types/audio"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useInView } from "react-intersection-observer"
 
 type UseLoadTracksProps = {
@@ -8,13 +8,21 @@ type UseLoadTracksProps = {
 
 export const useLoadTracks = ({ audioLinks }: UseLoadTracksProps) => {
 	const { ref, inView } = useInView()
+
 	const [loadTime, setLoadTime] = useState(10)
 	const [loadError, setLoadError] = useState(false)
 	const [allLoaded, setAllLoaded] = useState(false)
 
+	const aborted = useRef(false)
+
 	useEffect(() => {
-		if (!inView || loadError) return
+		if (allLoaded) return
+
 		const promises: Promise<{ success: boolean }>[] = []
+
+		aborted.current = !inView || loadError
+
+		if (aborted.current) return
 
 		for (const link of Object.values(audioLinks)) {
 			const audio = new Audio(link)
@@ -22,6 +30,7 @@ export const useLoadTracks = ({ audioLinks }: UseLoadTracksProps) => {
 
 			const promise = new Promise<{ success: boolean }>((resolve) => {
 				const timeoutId = setTimeout(() => {
+					if (aborted.current) return
 					console.log("Timeout")
 					setLoadError(true)
 					audio.oncanplaythrough = null
@@ -29,6 +38,7 @@ export const useLoadTracks = ({ audioLinks }: UseLoadTracksProps) => {
 				}, loadTime * 1000)
 
 				audio.oncanplaythrough = () => {
+					if (aborted.current) return
 					clearTimeout(timeoutId)
 					resolve({ success: true })
 				}
@@ -39,12 +49,18 @@ export const useLoadTracks = ({ audioLinks }: UseLoadTracksProps) => {
 		}
 
 		Promise.all(promises).then((results) => {
-			if (results.every((result) => result.success) && !loadError) {
+			if (aborted.current) return
+			const allSuccess = results.every((result) => result.success)
+			if (allSuccess && !loadError) {
 				console.log("All loaded")
 				setAllLoaded(true)
 			}
 		})
-	}, [audioLinks, inView, loadTime, loadError])
+
+		return () => {
+			aborted.current = true
+		}
+	}, [audioLinks, inView, loadTime, loadError, allLoaded])
 
 	return {
 		inViewRef: ref,
